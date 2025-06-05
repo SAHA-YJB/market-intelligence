@@ -1,3 +1,4 @@
+import Header from '@/components/home/header';
 import './globals.css';
 
 export default function RootLayout({
@@ -7,7 +8,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='ko'>
-      <body>{children}</body>
+      <body>
+        <div className='min-h-screen bg-slate-900 text-white'>
+          <Header />
+          {children}
+        </div>
+      </body>
     </html>
   );
 }
