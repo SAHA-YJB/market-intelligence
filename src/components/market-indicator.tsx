@@ -1,53 +1,62 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import type { MarketIndicatorProps } from '@/types/market-data';
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import { TrendingDown, TrendingUp } from 'lucide-react';
+import { MarketIndicatorProps } from '@/types/market-data';
+import { useMarketStore } from '@/store/market-store';
 
-export default function MarketIndicator({
+export const MarketIndicator: React.FC<MarketIndicatorProps> = ({
   title,
-  value,
+  indicatorKey,
   unit,
   change,
   description,
-}: MarketIndicatorProps) {
-  const isPositive = change > 0;
+}) => {
+  const marketData = useMarketStore((state) => state.marketData);
+  const value = marketData[indicatorKey];
 
-  const formatValue = (val: number) => {
-    if (unit === '₩') return val.toLocaleString();
-    return val.toFixed(1);
-  };
+  const changeColor = change >= 0 ? 'text-green-400' : 'text-red-400';
+  const ChangeIcon = change >= 0 ? TrendingUp : TrendingDown;
+
+  if (typeof value !== 'number') {
+    return (
+      <Card className='bg-slate-800 border-slate-700 text-white'>
+        <CardHeader className='pb-2'>
+          <CardTitle className='text-base font-medium flex justify-between items-center'>
+            {title}
+            <span className='text-xs text-slate-400'>{description}</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className='text-2xl font-bold'>-</div>
+          <div className={`text-xs ${changeColor} flex items-center`}>
+            데이터 로딩 중...
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
-    <Card className='bg-slate-800/50 border-slate-700 hover:bg-slate-800/70 transition-colors'>
+    <Card className='bg-slate-800 border-slate-700 text-white'>
       <CardHeader className='pb-2'>
-        <CardTitle className='text-sm font-medium text-slate-300'>
+        <CardTitle className='text-base font-medium flex justify-between items-center'>
           {title}
+          <span className='text-xs text-slate-400'>{description}</span>
         </CardTitle>
-        <p className='text-xs text-slate-500'>{description}</p>
       </CardHeader>
       <CardContent>
-        <div className='flex items-end justify-between'>
-          <div>
-            <div className='text-2xl font-bold text-white'>
-              {formatValue(value)}
-              {unit}
-            </div>
-            <div
-              className={`flex items-center gap-1 text-sm ${
-                isPositive ? 'text-green-400' : 'text-red-400'
-              }`}
-            >
-              {isPositive ? (
-                <TrendingUp className='w-4 h-4' />
-              ) : (
-                <TrendingDown className='w-4 h-4' />
-              )}
-              <span>{Math.abs(change).toFixed(1)}%</span>
-            </div>
-          </div>
+        <div className='text-2xl font-bold'>
+          {value.toLocaleString()} {unit}
+        </div>
+        <div className={`text-xs ${changeColor} flex items-center`}>
+          <ChangeIcon className='mr-1 h-4 w-4' />
+          {change.toLocaleString()} (
+          {((change / (value - change)) * 100).toFixed(1)}%)
         </div>
       </CardContent>
     </Card>
   );
-}
+};
+
+export default MarketIndicator;
