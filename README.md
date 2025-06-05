@@ -27,7 +27,7 @@
    - Next.js API Route: 실제 시장 데이터 페칭
    - 알림 시스템: 지표 임계치 도달 시 푸시 알림
 
-# 4. 기술 스택
+# 3. 기술 스택
 
 - 프레임워크: Next.js 15 (App Router)
 - 언어: TypeScript (interface 사용)
@@ -37,7 +37,7 @@
 - 상태 관리: Zustand
 - 백엔드: Supabase, Next.js API Routes
 
-# 5. 아키텍처 & 데이터 흐름
+# 4. 아키텍처 & 데이터 흐름
 
 1. **클라이언트(CSR)**
    - 실시간 갱신이 필요한 컴포넌트만 `"use client"` 선언
@@ -49,7 +49,7 @@
    - 재사용 가능한 UI 컴포넌트(`ui/card.tsx`, `ui/badge.tsx`)
    - 도메인 로직 컴포넌트(`ChartSection`, `MarketIndicator`, `MarketAnalysis`)
 
-# 6. 데이터 및 API 설계
+# 5. 데이터 및 API 설계
 
 - **MarketData**
   - buffettIndicator, vixIndex, usdKrw, dollarIndex, fearGreedIndex (모두 `number`)
@@ -59,7 +59,7 @@
 - **Supabase** (추후)
   - 사용자 테이블(users), 관심 지표(user_metrics)
 
-# 8. 보안 및 성능 고려사항
+# 6. 보안 및 성능 고려사항
 
 - API 요청 속도 제한 및 오류 처리(Guard Clause)
 - 데이터 검증(Zod 등)
@@ -67,6 +67,6 @@
 - Tailwind `twMerge` + `clsx` 로 CSS 중복 제거
 - 이미지 최적화(WebP, lazy loading)
 
-# 9. 향후 확장
+# 7. 향후 확장
 
 ## //
